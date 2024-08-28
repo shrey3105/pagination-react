@@ -6,8 +6,9 @@ const Body = () => {
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
 
-  const totalPages =
-    data.length % 5 == 0 ? data.length / 5 : data.length / 5 + 1;
+  const totalPages = useMemo(() => {
+    return data.length % 5 == 0 ? data.length / 5 : data.length / 5 + 1;
+  }, [data]);
 
   const lowerLimit = (page - 1) * 5;
   const upperLimit =
@@ -18,10 +19,13 @@ const Body = () => {
     result.push(data[i]);
   }
 
-  const pageNumList = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumList.push(i);
-  }
+  const pageNumList = useMemo(() => {
+    const pageNumList = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumList.push(i);
+    }
+    return pageNumList;
+  }, [data]);
 
   useEffect(() => {
     setData(appData);
